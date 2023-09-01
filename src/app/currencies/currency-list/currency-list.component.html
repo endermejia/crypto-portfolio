@@ -13,19 +13,21 @@
       <td>{{ currency.id }}</td>
       <td>{{ currency.acronym }}</td>
       <td>{{ currency.name }}</td>
-      <td class="d-flex gap-3">
-        <a type="button"
-                (click)="editCurrency(currency.id)"
-                title="Edit">
-          <i class="bi bi-pencil"></i>
-          Edit
-        </a>
+      <td>
+        <div class="d-flex gap-3">
           <a type="button"
-                (click)="deleteCurrency(currency.id)"
-                title="Delete">
-          <i class="bi bi-trash"></i>
-          Delete
-        </a>
+             (click)="editCurrency(currency.id)"
+             title="Edit">
+            <i class="bi bi-pencil"></i>
+            Edit
+          </a>
+          <a type="button"
+             (click)="deleteCurrency(currency.id)"
+             title="Delete">
+            <i class="bi bi-trash"></i>
+            Delete
+          </a>
+        </div>
       </td>
     </tr>
     </tbody>

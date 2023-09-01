@@ -15,19 +15,21 @@
       <td>{{ line.portfolioId }}</td>
       <td>{{ line.coinId }}</td>
       <td>{{ line.amount }}</td>
-      <td class="d-flex gap-3">
-        <a type="button"
-           (click)="editLine(line.id)"
-           title="Edit">
-          <i class="bi bi-pencil"></i>
-          Edit
-        </a>
-        <a type="button"
-           (click)="deleteLine(line.id)"
-           title="Delete">
-          <i class="bi bi-trash"></i>
-          Delete
-        </a>
+      <td>
+        <div class="d-flex gap-3">
+          <a type="button"
+             (click)="editLine(line.id)"
+             title="Edit">
+            <i class="bi bi-pencil"></i>
+            Edit
+          </a>
+          <a type="button"
+             (click)="deleteLine(line.id)"
+             title="Delete">
+            <i class="bi bi-trash"></i>
+            Delete
+          </a>
+        </div>
       </td>
     </tr>
     </tbody>
