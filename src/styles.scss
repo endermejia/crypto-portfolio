@@ -110,6 +110,12 @@ p {
   margin-bottom: 1em;
 }
 
+td {
+  .form-control {
+    margin-bottom: 0;
+  }
+}
+
 #profile-img {
   margin: 1em;
   text-align: -webkit-center;

@@ -2,14 +2,15 @@
   <table class="table table-striped">
     <thead>
     <tr>
-      <th>ID</th>
-      <th>Acronym</th>
-      <th>Name</th>
-      <th>Actions</th>
+      <th [width]="'10%'">ID</th>
+      <th [width]="'10%'">Acronym</th>
+      <th [width]="'60%'">Name</th>
+      <th [width]="'20%'">Actions</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let currency of currencies$ | async" [formGroup]="currencyEditForm">
+    <tr *ngFor="let currency of currencies$ | async"
+        [formGroup]="currencyEditForm">
       <td>
         {{ currency.id }}
       </td>
@@ -75,6 +76,7 @@
                class="form-control"
                id="acronym"
                oninput="value = value.toUpperCase()"
+               placeholder="BTC"
                formControlName="acronym">
       </div>
       <div class="col-6">
@@ -82,6 +84,7 @@
         <input type="text"
                class="form-control"
                id="name"
+               placeholder="Bitcoin"
                formControlName="name">
       </div>
       <button type="submit"
