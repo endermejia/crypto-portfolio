@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { PortfolioLinesRoutingModule } from './portfolio-lines-routing.module';
-import { PortfolioLinesComponent } from './portfolio-lines.component';
-import { LineListComponent } from './line-list/line-list.component';
+import {PortfolioLinesRoutingModule} from './portfolio-lines-routing.module';
+import {PortfolioLinesComponent} from './portfolio-lines.component';
+import {LineListComponent} from './line-list/line-list.component';
 
 
 @NgModule({
@@ -16,4 +16,5 @@ import { LineListComponent } from './line-list/line-list.component';
     PortfolioLinesRoutingModule
   ]
 })
-export class PortfolioLinesModule { }
+export class PortfolioLinesModule {
+}

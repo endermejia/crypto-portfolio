@@ -12,8 +12,8 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 export class CurrencyListComponent implements OnInit {
   currencies$: Observable<Coin[]> | undefined;
   editing = false;
-  currencyForm: FormGroup | undefined;
-  currencyEditForm: FormGroup | undefined;
+  currencyForm: FormGroup;
+  currencyEditForm: FormGroup;
 
   constructor(
     private apiService: ApiService,
@@ -35,8 +35,13 @@ export class CurrencyListComponent implements OnInit {
     this.currencies$ = this.apiService.getCurrencies();
   }
 
-  editCurrency(id: number) {
+  editCurrency(currency: Coin) {
     this.editing = true;
+    this.currencyEditForm.patchValue({
+      id: currency.id,
+      acronym: currency.acronym,
+      name: currency.name
+    });
   }
 
   cancelEditCurrency() {
@@ -50,9 +55,17 @@ export class CurrencyListComponent implements OnInit {
   }
 
   createCurrency() {
+    this.apiService.createCurrency(this.currencyForm.value).subscribe(() => {
+      this.currencies$ = this.apiService.getCurrencies();
+      this.currencyForm.reset();
+    });
   }
 
   updateCurrency() {
+    this.apiService.updateCurrency(this.currencyEditForm.value).subscribe(() => {
+      this.currencies$ = this.apiService.getCurrencies();
+      this.editing = false;
+    });
   }
 
 }

@@ -1,9 +1,10 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { CurrenciesRoutingModule } from './currencies-routing.module';
-import { CurrenciesComponent } from './currencies.component';
-import { CurrencyListComponent } from './currency-list/currency-list.component';
+import {CurrenciesRoutingModule} from './currencies-routing.module';
+import {CurrenciesComponent} from './currencies.component';
+import {CurrencyListComponent} from './currency-list/currency-list.component';
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -13,7 +14,9 @@ import { CurrencyListComponent } from './currency-list/currency-list.component';
   ],
   imports: [
     CommonModule,
-    CurrenciesRoutingModule
+    CurrenciesRoutingModule,
+    ReactiveFormsModule
   ]
 })
-export class CurrenciesModule { }
+export class CurrenciesModule {
+}

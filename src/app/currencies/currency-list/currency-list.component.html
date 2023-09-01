@@ -9,14 +9,31 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let currency of currencies$ | async">
-      <td>{{ currency.id }}</td>
-      <td>{{ currency.acronym }}</td>
-      <td>{{ currency.name }}</td>
+    <tr *ngFor="let currency of currencies$ | async" [formGroup]="currencyEditForm">
       <td>
-        <div class="d-flex gap-3">
+        {{ currency.id }}
+      </td>
+      <td>
+        <span *ngIf="!(editing && currencyEditForm.get('id')?.value === currency.id)">
+          {{ currency.acronym }}
+        </span>
+        <input *ngIf="editing && currencyEditForm.get('id')?.value === currency.id"
+               type="text"
+               class="form-control"
+               formControlName="acronym">
+      </td>
+      <td>
+        <span *ngIf="!(editing && currencyEditForm.get('id')?.value === currency.id)">
+          {{ currency.name }}
+        </span>
+        <input *ngIf="editing && currencyEditForm.get('id')?.value === currency.id"
+               type="text"
+               class="form-control"
+               formControlName="name">
+      <td>
+        <div class="d-flex gap-3" *ngIf="!(editing && currencyEditForm.get('id')?.value === currency.id)">
           <a type="button"
-             (click)="editCurrency(currency.id)"
+             (click)="editCurrency(currency)"
              title="Edit">
             <i class="bi bi-pencil"></i>
             Edit
@@ -27,6 +44,21 @@
             <i class="bi bi-trash"></i>
             Delete
           </a>
+        </div>
+        <div class="d-flex gap-3" *ngIf="editing && currencyEditForm.get('id')?.value === currency.id">
+          <a type="button"
+             (click)="updateCurrency()"
+             title="Save">
+            <i class="bi bi-save"></i>
+            Save
+          </a>
+          <a type="button"
+             (click)="cancelEditCurrency()"
+             title="Cancel">
+            <i class="bi bi-x-circle"></i>
+            Cancel
+          </a>
+
         </div>
       </td>
     </tr>
