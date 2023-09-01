@@ -1,19 +1,25 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
 
+import {CommonModule} from '@angular/common';
+import {ReactiveFormsModule} from '@angular/forms';
 import {PortfolioLinesRoutingModule} from './portfolio-lines-routing.module';
+
 import {PortfolioLinesComponent} from './portfolio-lines.component';
 import {LineListComponent} from './line-list/line-list.component';
+
+import {FindCoinByIdPipe} from "../pipes/find-coin-by-id.pipe";
 
 
 @NgModule({
   declarations: [
     PortfolioLinesComponent,
-    LineListComponent
+    LineListComponent,
+    FindCoinByIdPipe
   ],
   imports: [
     CommonModule,
-    PortfolioLinesRoutingModule
+    PortfolioLinesRoutingModule,
+    ReactiveFormsModule
   ]
 })
 export class PortfolioLinesModule {

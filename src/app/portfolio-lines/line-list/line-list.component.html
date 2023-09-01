@@ -2,23 +2,47 @@
   <table class="table table-striped">
     <thead>
     <tr>
-      <th>ID</th>
-      <th>Portfolio ID</th>
-      <th>Coin ID</th>
-      <th>Amount</th>
-      <th>Actions</th>
+      <th [width]="'10%'">ID</th>
+      <th [width]="'50%'">Coin</th>
+      <th [width]="'25%'">Amount</th>
+      <th [width]="'15%'">Actions</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let line of portfolioLines$ | async">
-      <td>{{ line.id }}</td>
-      <td>{{ line.portfolioId }}</td>
-      <td>{{ line.coinId }}</td>
-      <td>{{ line.amount }}</td>
+    <tr *ngFor="let line of portfolioLines$ | async"
+        [formGroup]="lineEditForm">
       <td>
-        <div class="d-flex gap-3">
+        {{ line.id }}
+      </td>
+      <td>
+        <span *ngIf="!(editing && lineEditForm.get('id')?.value === line.id)">
+          {{ (coins$ | async | findCoinById: line.coinId)?.name }}
+        </span>
+        <select *ngIf="editing && lineEditForm.get('id')?.value === line.id"
+                class="form-select"
+                formControlName="coinId">
+          <option hidden [value]="''">Select coin</option>
+          <option *ngFor="let coin of coins$ | async"
+                  [value]="coin.id">
+            {{ coin.name }}
+          </option>
+        </select>
+      </td>
+      <td>
+        <div *ngIf="!(editing && lineEditForm.get('id')?.value === line.id)">
+          {{ line.amount }}
+        </div>
+        <input *ngIf="editing && lineEditForm.get('id')?.value === line.id"
+               type="number"
+               min="0"
+               step="0.00000001"
+               class="form-control"
+               formControlName="amount">
+      </td>
+      <td>
+        <div class="d-flex gap-3" *ngIf="!(editing && lineEditForm.get('id')?.value === line.id)">
           <a type="button"
-             (click)="editLine(line.id)"
+             (click)="editLine(line)"
              title="Edit">
             <i class="bi bi-pencil"></i>
             Edit
@@ -30,8 +54,54 @@
             Delete
           </a>
         </div>
+        <div class="d-flex gap-3" *ngIf="editing && lineEditForm.get('id')?.value === line.id">
+          <a type="button"
+             (click)="updateLine()"
+             title="Update">
+            <i class="bi bi-save"></i>
+            Save
+          </a>
+          <a type="button"
+             (click)="cancelEditLine()"
+             title="Cancel">
+            <i class="bi bi-x"></i>
+            Cancel
+          </a>
+        </div>
       </td>
     </tr>
     </tbody>
   </table>
+  <h3 class="mt-5"><span class="text-gradient">Add currency</span></h3>
+  <form [formGroup]="lineForm" (ngSubmit)="createLine()">
+    <div class="row">
+      <div class="col-6">
+        <label for="coinId" class="form-label">Coin</label>
+        <select class="form-select"
+                id="coinId"
+                formControlName="coinId">
+          <option hidden [value]="''">Select coin</option>
+          <option *ngFor="let coin of coins$ | async"
+                  [value]="coin.id">
+            {{ coin.name }}
+          </option>
+        </select>
+      </div>
+      <div class="col-4">
+        <label for="amount" class="form-label">Amount</label>
+        <input type="number"
+               min="0"
+               step="0.00000001"
+               class="form-control"
+               id="amount"
+               placeholder="0.0"
+               formControlName="amount">
+      </div>
+      <button type="submit"
+              [disabled]="!lineForm.valid"
+              class="col-2 mt-3 align-self-center btn btn-primary">
+        Add
+      </button>
+    </div>
+  </form>
 </div>

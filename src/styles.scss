@@ -13,9 +13,9 @@ $secondary-color: #1678F5;
   border: none;
   font-weight: bold;
   background: linear-gradient(
-  $angle,
-  $primary-color,
-  $secondary-color
+      $angle,
+      $primary-color,
+      $secondary-color
   );
 
   transition: all 0.3s ease-in-out;
@@ -80,9 +80,9 @@ p {
 
 .text-gradient {
   background: -webkit-linear-gradient(
-  $angle,
-  $primary-color,
-  $secondary-color
+      $angle,
+      $primary-color,
+      $secondary-color
   );
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
@@ -96,9 +96,9 @@ p {
 
 .nav-link.active {
   border-image-source: linear-gradient(
-  $angle,
-  $primary-color,
-  $secondary-color
+      $angle,
+      $primary-color,
+      $secondary-color
   );
   border-image-slice: 1;
   border-bottom: 5px solid transparent;
@@ -110,8 +110,17 @@ p {
   margin-bottom: 1em;
 }
 
+.form-select {
+  border-radius: 0;
+  margin-bottom: 1em;
+}
+
 td {
   .form-control {
+    margin-bottom: 0;
+  }
+
+  .form-select {
     margin-bottom: 0;
   }
 }

@@ -64,16 +64,22 @@ export class ApiService {
     return this.http.get(`${this.baseUrl}/portfolios/${portfolioId}/lines`) as Observable<PortfolioLine[]>;
   }
 
+  getPortfolioLine(portfolioId: number, portfolioLineId: number): Observable<PortfolioLine> {
+    return this.http.get(`${this.baseUrl}/portfolios/${portfolioId}/lines/${portfolioLineId}`) as Observable<PortfolioLine>;
+  }
+
   createPortfolioLine(portfolioId: number, portfolioLine: PortfolioLine): Observable<PortfolioLine> {
-    return this.http.post(`${this.baseUrl}/portfolios/${portfolioId}/lines`, portfolioLine) as Observable<PortfolioLine>;
+    portfolioLine.portfolioId = portfolioId;
+    return this.http.post(`${this.baseUrl}/lines`, portfolioLine) as Observable<PortfolioLine>;
   }
 
   updatePortfolioLine(portfolioId: number, portfolioLine: PortfolioLine): Observable<PortfolioLine> {
-    return this.http.put(`${this.baseUrl}/portfolios/${portfolioId}/lines/${portfolioLine.id}`, portfolioLine) as Observable<PortfolioLine>;
+    portfolioLine.portfolioId = portfolioId;
+    return this.http.put(`${this.baseUrl}/lines/${portfolioLine.id}`, portfolioLine) as Observable<PortfolioLine>;
   }
 
-  deletePortfolioLine(portfolioId: number, portfolioLineId: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/portfolios/${portfolioId}/lines/${portfolioLineId}`);
+  deletePortfolioLine(portfolioLineId: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/lines/${portfolioLineId}`);
   }
 
 }
