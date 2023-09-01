@@ -20,6 +20,8 @@
         <input *ngIf="editing && currencyEditForm.get('id')?.value === currency.id"
                type="text"
                class="form-control"
+               [ngClass]="{'is-invalid': currencyEditForm.get('acronym')?.invalid}"
+               oninput="value = value.toUpperCase()"
                formControlName="acronym">
       </td>
       <td>
@@ -29,6 +31,7 @@
         <input *ngIf="editing && currencyEditForm.get('id')?.value === currency.id"
                type="text"
                class="form-control"
+               [ngClass]="{'is-invalid': currencyEditForm.get('name')?.invalid}"
                formControlName="name">
       <td>
         <div class="d-flex gap-3" *ngIf="!(editing && currencyEditForm.get('id')?.value === currency.id)">
@@ -71,7 +74,7 @@
         <input type="text"
                class="form-control"
                id="acronym"
-                placeholder="Acronym"
+               oninput="value = value.toUpperCase()"
                formControlName="acronym">
       </div>
       <div class="col-6">
@@ -79,16 +82,13 @@
         <input type="text"
                class="form-control"
                id="name"
-               placeholder="Name"
                formControlName="name">
       </div>
-      <div class="col-2 center-div">
-        <button type="submit"
-                [disabled]="!currencyForm.valid"
-                class="w-100 btn btn-primary">
-          Add
-        </button>
-      </div>
+      <button type="submit"
+              [disabled]="!currencyForm.valid"
+              class="col-2 mt-3 align-self-center btn btn-primary">
+        Add
+      </button>
     </div>
   </form>
 </div>

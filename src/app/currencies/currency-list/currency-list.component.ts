@@ -21,13 +21,13 @@ export class CurrencyListComponent implements OnInit {
   ) {
     this.currencyForm = this.fb.group({
       id: [''],
-      acronym: ['', Validators.required],
-      name: ['', Validators.required]
+      acronym: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
+      name: ['', [Validators.required, Validators.minLength(3)]]
     });
     this.currencyEditForm = this.fb.group({
       id: ['', Validators.required],
-      acronym: ['', Validators.required],
-      name: ['', Validators.required]
+      acronym: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
+      name: ['', [Validators.required, Validators.minLength(3)]]
     });
   }
 
@@ -62,10 +62,12 @@ export class CurrencyListComponent implements OnInit {
   }
 
   updateCurrency() {
-    this.apiService.updateCurrency(this.currencyEditForm.value).subscribe(() => {
-      this.currencies$ = this.apiService.getCurrencies();
-      this.editing = false;
-    });
+    if (this.currencyEditForm.valid) {
+      this.apiService.updateCurrency(this.currencyEditForm.value).subscribe(() => {
+        this.currencies$ = this.apiService.getCurrencies();
+        this.editing = false;
+      });
+    }
   }
 
 }
