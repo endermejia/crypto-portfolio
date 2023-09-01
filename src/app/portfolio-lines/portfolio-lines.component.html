@@ -1,0 +1,16 @@
+<section class="main-section">
+  <article class="mt-lg-5">
+    <div class="center-div">
+<!-- show jsonValue porfolio.name     -->
+      <h1 class="text-gradient fw-bold">Lines of {{ (portfolio$ | async)?.name }}</h1>
+    </div>
+    <app-line-list [portfolio]="portfolio$ | async"></app-line-list>
+  </article>
+  <div class="center-div">
+    <a type="button" class="fs-2"
+       routerLink="/portfolios">
+      <i class="bi bi-arrow-left"></i>
+      Return
+    </a>
+  </div>
+</section>

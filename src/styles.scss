@@ -1,0 +1,128 @@
+/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+
+//bootstap icons
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+$angle: 150deg;
+$primary-color: #28480D;
+$secondary-color: #1678F5;
+
+.btn {
+  border-radius: 0;
+  border: none;
+  font-weight: bold;
+  background: linear-gradient(
+  $angle,
+  $primary-color,
+  $secondary-color
+  );
+
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+a {
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    opacity: 0.5;
+  }
+
+  &[type="button"] {
+    @extend .text-gradient;
+  }
+
+}
+
+p {
+  font-size: 1.2em;
+  @media (min-width: 768px) {
+    text-align: justify;
+  }
+}
+
+.main-section {
+  padding: 2em;
+  margin-bottom: 3em;
+}
+
+.center-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.align-div {
+  display: flex;
+  align-items: center;
+}
+
+.hand {
+  animation-duration: 2.5s;
+  animation-iteration-count: infinite;
+  animation-name: wave-animation;
+  display: inline-block;
+  transform-origin: 70% 70%;
+  margin: 0 0 0 0;
+}
+
+.footer-icon {
+  @extend .text-gradient;
+  margin: 0 0.5em 0 0.5em;
+  font-size: 2.5em;
+}
+
+.text-gradient {
+  background: -webkit-linear-gradient(
+  $angle,
+  $primary-color,
+  $secondary-color
+  );
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+}
+
+.nav-link {
+  text-transform: uppercase;
+  font-weight: bold;
+  border-bottom: 5px solid transparent;
+}
+
+.nav-link.active {
+  border-image-source: linear-gradient(
+  $angle,
+  $primary-color,
+  $secondary-color
+  );
+  border-image-slice: 1;
+  border-bottom: 5px solid transparent;
+}
+
+
+.form-control {
+  border-radius: 0;
+  margin-bottom: 1em;
+}
+
+#profile-img {
+  margin: 1em;
+  text-align: -webkit-center;
+
+  img {
+    padding: 1em;
+    border-radius: 50%;
+    @media (min-width: 768px) {
+      max-width: 25em;
+    }
+    @media (max-width: 768px) {
+      max-width: 100%;
+    }
+  }
+}
+

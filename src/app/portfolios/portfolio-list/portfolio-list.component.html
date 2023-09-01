@@ -1,0 +1,38 @@
+<div class="container mt-4">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let portfolio of portfolios$ | async">
+      <td>{{ portfolio.id }}</td>
+      <td>{{ portfolio.name }}</td>
+      <td class="d-flex gap-3">
+        <a type="button"
+           routerLink="/portfolios/{{ portfolio.id }}"
+           (click)="viewPortfolio(portfolio.id)"
+           title="View">
+          <i class="bi bi-eye"></i>
+          View
+        </a>
+        <a type="button"
+                (click)="editPortfolio(portfolio.id)"
+                title="Edit">
+          <i class="bi bi-pencil"></i>
+          Edit
+        </a>
+        <a type="button"
+                (click)="deletePortfolio(portfolio.id)"
+                title="Delete">
+          <i class="bi bi-trash"></i>
+          Delete
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

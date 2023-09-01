@@ -1,0 +1,124 @@
+{
+  "coins": [
+    {
+      "id": 1,
+      "acronym": "BTC",
+      "name": "Bitcoin"
+    },
+    {
+      "id": 2,
+      "acronym": "ETH",
+      "name": "Ethereum"
+    },
+    {
+      "id": 3,
+      "acronym": "LTC",
+      "name": "Litecoin"
+    },
+    {
+      "id": 4,
+      "acronym": "XMR",
+      "name": "Monero"
+    },
+    {
+      "id": 5,
+      "acronym": "REQ",
+      "name": "Request"
+    },
+    {
+      "id": 6,
+      "acronym": "BNK",
+      "name": "Bankera"
+    },
+    {
+      "id": 7,
+      "acronym": "IOT",
+      "name": "IOTA"
+    },
+    {
+      "id": 8,
+      "acronym": "XLM",
+      "name": "Lumen"
+    },
+    {
+      "id": 9,
+      "acronym": "BTG",
+      "name": "Bitcoin Gold"
+    },
+    {
+      "id": 10,
+      "acronym": "ETC",
+      "name": "Ethereum classic"
+    }
+  ],
+  "portfolios": [
+    {
+      "id": 1,
+      "name": "Portfolio 1"
+    },
+    {
+      "id": 2,
+      "name": "Portfolio 2"
+    },
+    {
+      "id": 3,
+      "name": "Portfolio 3"
+    }
+  ],
+  "lines": [
+    {
+      "id": 1,
+      "portfolioId": 1,
+      "coinId": 1,
+      "amount": 1.5
+    },
+    {
+      "id": 2,
+      "portfolioId": 1,
+      "coinId": 6,
+      "amount": 20.3
+    },
+    {
+      "id": 3,
+      "portfolioId": 1,
+      "coinId": 8,
+      "amount": 9.2
+    },
+    {
+      "id": 4,
+      "portfolioId": 2,
+      "coinId": 2,
+      "amount": 7.4
+    },
+    {
+      "id": 5,
+      "portfolioId": 2,
+      "coinId": 3,
+      "amount": 5
+    },
+    {
+      "id": 6,
+      "portfolioId": 2,
+      "coinId": 7,
+      "amount": 4.8
+    },
+    {
+      "id": 7,
+      "portfolioId": 3,
+      "coinId": 5,
+      "amount": 6
+    },
+    {
+      "id": 8,
+      "portfolioId": 3,
+      "coinId": 9,
+      "amount": 0.2
+    },
+    {
+      "id": 9,
+      "portfolioId": 3,
+      "coinId": 10,
+      "amount": 10
+    }
+  ]
+}
