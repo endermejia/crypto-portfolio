@@ -11,6 +11,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 })
 export class CurrencyListComponent implements OnInit {
   currencies$: Observable<Coin[]> | undefined;
+  currenciesValues$: { [key: string]: Observable<{ EUR: number }> } = {};
   editing = false;
   currencyForm: FormGroup;
   currencyEditForm: FormGroup;
@@ -21,12 +22,12 @@ export class CurrencyListComponent implements OnInit {
   ) {
     this.currencyForm = this.fb.group({
       id: [''],
-      acronym: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
+      acronym: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
       name: ['', [Validators.required, Validators.minLength(3)]]
     });
     this.currencyEditForm = this.fb.group({
       id: ['', Validators.required],
-      acronym: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
+      acronym: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
       name: ['', [Validators.required, Validators.minLength(3)]]
     });
   }
@@ -68,6 +69,13 @@ export class CurrencyListComponent implements OnInit {
         this.editing = false;
       });
     }
+  }
+
+  getEurValueByAcronym(acronym: string): Observable<{ EUR: number }> {
+    if (!this.currenciesValues$[acronym]) {
+      this.currenciesValues$[acronym] = this.apiService.getEurValueByAcronym(acronym);
+    }
+    return this.currenciesValues$[acronym];
   }
 
 }

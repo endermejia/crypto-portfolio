@@ -4,7 +4,8 @@
     <tr>
       <th [width]="'10%'">ID</th>
       <th [width]="'10%'">Acronym</th>
-      <th [width]="'60%'">Name</th>
+      <th [width]="'50%'">Name</th>
+      <th [width]="'10%'">EUR</th>
       <th [width]="'20%'">Actions</th>
     </tr>
     </thead>
@@ -34,6 +35,10 @@
                class="form-control"
                [ngClass]="{'is-invalid': currencyEditForm.get('name')?.invalid}"
                formControlName="name">
+      </td>
+      <td>
+        {{ (getEurValueByAcronym(currency.acronym) | async)?.EUR }}
+      </td>
       <td>
         <div class="d-flex gap-3" *ngIf="!(editing && currencyEditForm.get('id')?.value === currency.id)">
           <a type="button"
@@ -77,6 +82,7 @@
                id="acronym"
                oninput="value = value.toUpperCase()"
                placeholder="BTC"
+               [ngClass]="{'is-invalid': currencyForm.get('acronym')?.invalid && currencyForm.get('acronym')?.value}"
                formControlName="acronym">
       </div>
       <div class="col-6">
@@ -85,6 +91,7 @@
                class="form-control"
                id="name"
                placeholder="Bitcoin"
+               [ngClass]="{'is-invalid': currencyForm.get('name')?.invalid && currencyForm.get('name')?.value}"
                formControlName="name">
       </div>
       <button type="submit"

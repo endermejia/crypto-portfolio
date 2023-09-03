@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {Coin, Portfolio, PortfolioLine} from './models/models';
+import {map, Observable} from 'rxjs';
+import {Coin, CryptoCompareData, Portfolio, PortfolioLine} from './models/models';
 import {environment} from '../environments/environment';
 
 @Injectable({
@@ -9,6 +9,7 @@ import {environment} from '../environments/environment';
 })
 export class ApiService {
   private serverUrl = environment.serverUrl;
+  private apiKey = environment.cryptocompareApiKey; // https://www.cryptocompare.com/cryptopian/api-keys
 
   constructor(
     private http: HttpClient
@@ -17,11 +18,28 @@ export class ApiService {
 
   getEurValueByAcronym(acronym: string): Observable<{ EUR: number }> {
     const cryptoValueUrl = `https://min-api.cryptocompare.com/data/price?fsym=${acronym}&tsyms=EUR`;
-    return this.http.get(cryptoValueUrl) as Observable<{ EUR: number }>;
+    return this.http.get(
+      cryptoValueUrl,
+      {headers: {authorization: `Apikey ${this.apiKey}`}}
+    ) as Observable<{ EUR: number }>;
   }
 
-  getCryptoCompareData(): Observable<any> {
-    return this.http.get('https://min-api.cryptocompare.com/data/all/coinlist') as Observable<any>;
+  getCryptoCompareData(): Observable<CryptoCompareData> {
+    return this.http.get('https://min-api.cryptocompare.com/data/all/coinlist')
+      .pipe(
+        map((data: Partial<CryptoCompareData>) => {
+          const cryptoCompareData: CryptoCompareData = {
+            Data: {}
+          };
+          for (const key in data.Data) {
+            cryptoCompareData.Data[key] = {
+              CoinName: data.Data[key].CoinName,
+              Symbol: data.Data[key].Symbol
+            };
+          }
+          return cryptoCompareData;
+        })
+      ) as Observable<CryptoCompareData>;
   }
 
   // Currencies:
@@ -42,7 +60,7 @@ export class ApiService {
     return this.http.put(`${this.serverUrl}/coins/${currency.id}`, currency) as Observable<Coin>;
   }
 
-  deleteCurrency(currencyId: number): Observable<any> {
+  deleteCurrency(currencyId: number): Observable<Object> {
     return this.http.delete(`${this.serverUrl}/coins/${currencyId}`);
   }
 
@@ -64,7 +82,7 @@ export class ApiService {
     return this.http.put(`${this.serverUrl}/portfolios/${portfolio.id}`, portfolio) as Observable<Portfolio>;
   }
 
-  deletePortfolio(portfolioId: number): Observable<any> {
+  deletePortfolio(portfolioId: number): Observable<Object> {
     return this.http.delete(`${this.serverUrl}/portfolios/${portfolioId}`);
   }
 
@@ -88,7 +106,7 @@ export class ApiService {
     return this.http.put(`${this.serverUrl}/lines/${portfolioLine.id}`, portfolioLine) as Observable<PortfolioLine>;
   }
 
-  deletePortfolioLine(portfolioLineId: number): Observable<any> {
+  deletePortfolioLine(portfolioLineId: number): Observable<Object> {
     return this.http.delete(`${this.serverUrl}/lines/${portfolioLineId}`);
   }
 

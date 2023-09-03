@@ -15,3 +15,12 @@ export interface PortfolioLine {
     coinId: number;
     amount: number;
 }
+
+export interface CryptoCompareData {
+  Data: {
+    [key: string]: {
+      CoinName: string;
+      Symbol: string;
+    }
+  }
+}

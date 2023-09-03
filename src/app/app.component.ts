@@ -14,6 +14,5 @@ export class AppComponent {
       {name: 'GitHub', link: 'https://github.com/endermejia', img: 'github'},
       {name: 'Instagram', link: 'https://www.instagram.com/gabri.mejia/', img: 'instagram'},
     ]
-  }
-
+  };
 }
