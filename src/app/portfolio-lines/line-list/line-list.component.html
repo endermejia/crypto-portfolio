@@ -3,8 +3,9 @@
     <thead>
     <tr>
       <th [width]="'10%'">ID</th>
-      <th [width]="'50%'">Coin</th>
-      <th [width]="'25%'">Amount</th>
+      <th [width]="'45%'">Coin</th>
+      <th [width]="'15%'">Amount</th>
+      <th [width]="'15%'">EUR value</th>
       <th [width]="'15%'">Actions</th>
     </tr>
     </thead>
@@ -30,14 +31,17 @@
       </td>
       <td>
         <div *ngIf="!(editing && lineEditForm.get('id')?.value === line.id)">
-          {{ line.amount }}
+          <strong>{{ line.amount }}</strong>
         </div>
         <input *ngIf="editing && lineEditForm.get('id')?.value === line.id"
                type="number"
                min="0"
-               step="0.00000001"
+               step="0.01"
                class="form-control"
                formControlName="amount">
+      </td>
+      <td>
+        {{ line.amount * Number((getEurValueByAcronym(String((coins$ | async | findCoinById: line.coinId)?.acronym)) | async)?.EUR) | currency:'EUR':'symbol':'1.2-2' }}
       </td>
       <td>
         <div class="d-flex gap-3" *ngIf="!(editing && lineEditForm.get('id')?.value === line.id)">
@@ -91,7 +95,7 @@
         <label for="amount" class="form-label">Amount</label>
         <input type="number"
                min="0"
-               step="0.00000001"
+               step="0.01"
                class="form-control"
                id="amount"
                placeholder="0.0"

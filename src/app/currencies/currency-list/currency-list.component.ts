@@ -1,20 +1,23 @@
-import {Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Observable, Subscription} from 'rxjs';
 import {ApiService} from '../../api.service';
-import {Coin} from '../../models/models';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Coin, CryptoCompareData} from '../../models/models';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-currency-list',
   templateUrl: './currency-list.component.html',
   styleUrls: ['./currency-list.component.css']
 })
-export class CurrencyListComponent implements OnInit {
+export class CurrencyListComponent implements OnInit, OnDestroy {
+
   currencies$: Observable<Coin[]> | undefined;
   currenciesValues$: { [key: string]: Observable<{ EUR: number }> } = {};
+  cryptoCompareData: CryptoCompareData | undefined;
   editing = false;
   currencyForm: FormGroup;
   currencyEditForm: FormGroup;
+  subscriptions: Subscription[] = [];
 
   constructor(
     private apiService: ApiService,
@@ -32,11 +35,22 @@ export class CurrencyListComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.currencies$ = this.apiService.getCurrencies();
+    this.subscriptions.push(
+      this.apiService.getCryptoCompareData().subscribe((data) => {
+        this.cryptoCompareData = data;
+      })
+    );
   }
 
-  editCurrency(currency: Coin) {
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => {
+      subscription.unsubscribe();
+    });
+  }
+
+  editCurrency(currency: Coin): void {
     this.editing = true;
     this.currencyEditForm.patchValue({
       id: currency.id,
@@ -45,29 +59,37 @@ export class CurrencyListComponent implements OnInit {
     });
   }
 
-  cancelEditCurrency() {
+  cancelEditCurrency(): void {
     this.editing = false;
   }
 
-  deleteCurrency(id: number) {
-    this.apiService.deleteCurrency(id).subscribe(() => {
-      this.currencies$ = this.apiService.getCurrencies();
-    });
-  }
-
-  createCurrency() {
-    this.apiService.createCurrency(this.currencyForm.value).subscribe(() => {
-      this.currencies$ = this.apiService.getCurrencies();
-      this.currencyForm.reset();
-    });
-  }
-
-  updateCurrency() {
-    if (this.currencyEditForm.valid) {
-      this.apiService.updateCurrency(this.currencyEditForm.value).subscribe(() => {
+  deleteCurrency(id: number): void {
+    this.subscriptions.push(
+      this.apiService.deleteCurrency(id).subscribe(() => {
         this.currencies$ = this.apiService.getCurrencies();
-        this.editing = false;
-      });
+      })
+    );
+  }
+
+  createCurrency(): void {
+    if (this.currencyForm.valid && this.cryptoCompareData?.Data[this.currencyForm.value.acronym]) {
+      this.subscriptions.push(
+        this.apiService.createCurrency(this.currencyForm.value).subscribe(() => {
+          this.currencies$ = this.apiService.getCurrencies();
+          this.currencyForm.reset();
+        })
+      );
+    }
+  }
+
+  updateCurrency(): void {
+    if (this.currencyEditForm.valid) {
+      this.subscriptions.push(
+        this.apiService.updateCurrency(this.currencyEditForm.value).subscribe(() => {
+          this.currencies$ = this.apiService.getCurrencies();
+          this.editing = false;
+        })
+      );
     }
   }
 

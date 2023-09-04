@@ -37,7 +37,7 @@
                formControlName="name">
       </td>
       <td>
-        {{ (getEurValueByAcronym(currency.acronym) | async)?.EUR }}
+        {{ (getEurValueByAcronym(currency.acronym) | async)?.EUR | currency:'EUR':'symbol':'1.2-2' }}
       </td>
       <td>
         <div class="d-flex gap-3" *ngIf="!(editing && currencyEditForm.get('id')?.value === currency.id)">

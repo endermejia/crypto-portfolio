@@ -1,7 +1,7 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {ApiService} from '../../api.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {Coin, Portfolio, PortfolioLine} from '../../models/models';
 
 @Component({
@@ -9,15 +9,20 @@ import {Coin, Portfolio, PortfolioLine} from '../../models/models';
   templateUrl: './line-list.component.html',
   styleUrls: ['./line-list.component.css']
 })
-export class LineListComponent implements OnInit, OnChanges {
+export class LineListComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() portfolio: Portfolio | null = null;
 
+  protected readonly Number = Number;
+  protected readonly String = String;
+
   portfolioLines$: Observable<PortfolioLine[]> | undefined;
+  currenciesValues$: { [key: string]: Observable<{ EUR: number }> } = {};
   coins$: Observable<Coin[]> | undefined;
   editing = false;
   lineForm: FormGroup;
   lineEditForm: FormGroup;
+  subscriptions: Subscription[] = [];
 
   constructor(
     private apiService: ApiService,
@@ -35,7 +40,7 @@ export class LineListComponent implements OnInit, OnChanges {
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.coins$ = this.apiService.getCurrencies();
   }
 
@@ -43,6 +48,12 @@ export class LineListComponent implements OnInit, OnChanges {
     if (changes?.['portfolio']?.currentValue) {
       this.portfolioLines$ = this.apiService.getPortfolioLines(Number(this.portfolio?.id));
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => {
+      subscription.unsubscribe();
+    });
   }
 
   editLine(line: PortfolioLine) {
@@ -55,46 +66,58 @@ export class LineListComponent implements OnInit, OnChanges {
     });
   }
 
-  cancelEditLine() {
+  cancelEditLine(): void {
     this.editing = false;
   }
 
-  deleteLine(id: number) {
-    this.apiService.deletePortfolioLine(
-      Number(id)
-    ).subscribe(() => {
-      this.portfolioLines$ = this.apiService.getPortfolioLines(Number(this.portfolio?.id));
-    });
-  }
-
-  createLine() {
-    this.apiService.createPortfolioLine(
-      Number(this.portfolio?.id),
-      {
-        coinId: Number(this.lineForm.value.coinId),
-        amount: Number(this.lineForm.value.amount)
-      } as PortfolioLine
-    ).subscribe(() => {
-      this.portfolioLines$ = this.apiService.getPortfolioLines(Number(this.portfolio?.id));
-      this.lineForm.reset();
-      this.lineForm.controls['coinId'].setValue('');
-    });
-  }
-
-  updateLine() {
-    if (this.lineEditForm.valid) {
-      this.apiService.updatePortfolioLine(
-        Number(this.portfolio?.id),
-        {
-          id: Number(this.lineEditForm.value.id),
-          coinId: Number(this.lineEditForm.value.coinId),
-          amount: Number(this.lineEditForm.value.amount)
-        } as PortfolioLine
-      ).subscribe(() => {
+  deleteLine(id: number): void {
+    this.subscriptions.push(
+      this.apiService.deletePortfolioLine(Number(id)).subscribe(() => {
         this.portfolioLines$ = this.apiService.getPortfolioLines(Number(this.portfolio?.id));
-        this.editing = false;
-      });
+      })
+    );
+  }
+
+  createLine(): void {
+    if (this.lineForm.valid) {
+      this.subscriptions.push(
+        this.apiService.createPortfolioLine(
+          Number(this.portfolio?.id),
+          {
+            coinId: Number(this.lineForm.value.coinId),
+            amount: Number(this.lineForm.value.amount)
+          } as PortfolioLine
+        ).subscribe(() => {
+          this.portfolioLines$ = this.apiService.getPortfolioLines(Number(this.portfolio?.id));
+          this.lineForm.reset();
+          this.lineForm.controls['coinId'].setValue('');
+        })
+      );
     }
   }
 
+  updateLine(): void {
+    if (this.lineEditForm.valid) {
+      this.subscriptions.push(
+        this.apiService.updatePortfolioLine(
+          Number(this.portfolio?.id),
+          {
+            id: Number(this.lineEditForm.value.id),
+            coinId: Number(this.lineEditForm.value.coinId),
+            amount: Number(this.lineEditForm.value.amount)
+          } as PortfolioLine
+        ).subscribe(() => {
+          this.portfolioLines$ = this.apiService.getPortfolioLines(Number(this.portfolio?.id));
+          this.editing = false;
+        })
+      );
+    }
+  }
+
+  getEurValueByAcronym(acronym: string): Observable<{ EUR: number }> {
+    if (!this.currenciesValues$[acronym]) {
+      this.currenciesValues$[acronym] = this.apiService.getEurValueByAcronym(acronym);
+    }
+    return this.currenciesValues$[acronym];
+  }
 }

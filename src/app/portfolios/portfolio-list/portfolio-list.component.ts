@@ -1,19 +1,21 @@
-import {Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Observable, Subscription} from 'rxjs';
 import {Portfolio} from '../../models/models';
 import {ApiService} from '../../api.service';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-portfolio-list',
   templateUrl: './portfolio-list.component.html',
   styleUrls: ['./portfolio-list.component.css']
 })
-export class PortfolioListComponent  implements OnInit {
+export class PortfolioListComponent implements OnInit, OnDestroy {
+
   portfolios$: Observable<Portfolio[]> | undefined;
   editing = false;
   portfolioForm: FormGroup;
   portfolioEditForm: FormGroup;
+  subscriptions: Subscription[] = [];
 
   constructor(
     private apiService: ApiService,
@@ -29,11 +31,17 @@ export class PortfolioListComponent  implements OnInit {
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.portfolios$ = this.apiService.getPortfolios();
   }
 
-  editPortfolio(portfolio: Portfolio) {
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription: Subscription): void => {
+      subscription.unsubscribe();
+    });
+  }
+
+  editPortfolio(portfolio: Portfolio): void {
     this.editing = true;
     this.portfolioEditForm.patchValue({
       id: portfolio.id,
@@ -41,29 +49,39 @@ export class PortfolioListComponent  implements OnInit {
     });
   }
 
-  cancelEditPortfolio() {
+  cancelEditPortfolio(): void {
     this.editing = false;
   }
 
-  deletePortfolio(id: number) {
-    this.apiService.deletePortfolio(id).subscribe(() => {
-      this.portfolios$ = this.apiService.getPortfolios();
-    });
+  deletePortfolio(id: number): void {
+    this.subscriptions.push(
+      this.apiService.deletePortfolio(id).subscribe(() => {
+        this.portfolios$ = this.apiService.getPortfolios();
+      })
+    );
   }
 
-  createPortfolio() {
-    this.apiService.createPortfolio(this.portfolioForm.value).subscribe(() => {
-      this.portfolios$ = this.apiService.getPortfolios();
-      this.portfolioForm.reset();
-    });
+  createPortfolio(): void {
+    if (this.portfolioForm.valid) {
+      this.subscriptions.push(
+        this.apiService.createPortfolio(this.portfolioForm.value).subscribe(() => {
+          this.portfolios$ = this.apiService.getPortfolios();
+          this.portfolioForm.reset();
+        })
+      );
+    }
   }
 
-  updatePortfolio() {
-    this.apiService.updatePortfolio(this.portfolioEditForm.value).subscribe(() => {
-      this.portfolios$ = this.apiService.getPortfolios();
-      this.portfolioEditForm.reset();
-      this.editing = false;
-    });
+  updatePortfolio(): void {
+    if (this.portfolioEditForm.valid) {
+      this.subscriptions.push(
+        this.apiService.updatePortfolio(this.portfolioEditForm.value).subscribe(() => {
+          this.portfolios$ = this.apiService.getPortfolios();
+          this.portfolioEditForm.reset();
+          this.editing = false;
+        })
+      );
+    }
   }
 
 }
