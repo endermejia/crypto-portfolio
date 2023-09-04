@@ -25,6 +25,10 @@
                [ngClass]="{'is-invalid': currencyEditForm.get('acronym')?.invalid}"
                oninput="value = value.toUpperCase()"
                formControlName="acronym">
+        <div *ngIf="currencyEditForm.get('acronym')?.invalid"
+             class="invalid-feedback">
+          Invalid acronym
+        </div>
       </td>
       <td>
         <span *ngIf="!(editing && currencyEditForm.get('id')?.value === currency.id)">
@@ -35,6 +39,10 @@
                class="form-control"
                [ngClass]="{'is-invalid': currencyEditForm.get('name')?.invalid}"
                formControlName="name">
+        <div *ngIf="currencyEditForm.get('name')?.invalid"
+             class="invalid-feedback">
+          Invalid name
+        </div>
       </td>
       <td>
         {{ (getEurValueByAcronym(currency.acronym) | async)?.EUR | currency:'EUR':'symbol':'1.2-2' }}
@@ -84,6 +92,10 @@
                placeholder="BTC"
                [ngClass]="{'is-invalid': currencyForm.get('acronym')?.invalid && currencyForm.get('acronym')?.value}"
                formControlName="acronym">
+        <div *ngIf="currencyForm.get('acronym')?.invalid && currencyForm.get('acronym')?.value"
+             class="invalid-feedback">
+          Invalid acronym
+        </div>
       </div>
       <div class="col-6">
         <label for="name" class="form-label">Name</label>
@@ -93,6 +105,10 @@
                placeholder="Bitcoin"
                [ngClass]="{'is-invalid': currencyForm.get('name')?.invalid && currencyForm.get('name')?.value}"
                formControlName="name">
+        <div *ngIf="currencyForm.get('name')?.invalid && currencyForm.get('name')?.value"
+             class="invalid-feedback">
+          Invalid name
+        </div>
       </div>
       <button type="submit"
               [disabled]="!currencyForm.valid"

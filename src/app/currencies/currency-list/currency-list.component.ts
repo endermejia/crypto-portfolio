@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subscription} from 'rxjs';
 import {ApiService} from '../../api.service';
 import {Coin, CryptoCompareData} from '../../models/models';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-currency-list',
@@ -25,12 +25,12 @@ export class CurrencyListComponent implements OnInit, OnDestroy {
   ) {
     this.currencyForm = this.fb.group({
       id: [''],
-      acronym: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
+      acronym: ['', [Validators.required, this.acronymValidator.bind(this)]],
       name: ['', [Validators.required, Validators.minLength(3)]]
     });
     this.currencyEditForm = this.fb.group({
       id: ['', Validators.required],
-      acronym: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
+      acronym: ['', [Validators.required, this.acronymValidator.bind(this)]],
       name: ['', [Validators.required, Validators.minLength(3)]]
     });
   }
@@ -48,6 +48,13 @@ export class CurrencyListComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((subscription) => {
       subscription.unsubscribe();
     });
+  }
+
+  acronymValidator(control: AbstractControl): { [key: string]: unknown } | null {
+    if (this.cryptoCompareData?.Data[control.value]) {
+      return null;
+    }
+    return {acronym: {value: control.value}};
   }
 
   editCurrency(currency: Coin): void {
@@ -83,7 +90,7 @@ export class CurrencyListComponent implements OnInit, OnDestroy {
   }
 
   updateCurrency(): void {
-    if (this.currencyEditForm.valid) {
+    if (this.currencyEditForm.valid && this.cryptoCompareData?.Data[this.currencyEditForm.value.acronym]) {
       this.subscriptions.push(
         this.apiService.updateCurrency(this.currencyEditForm.value).subscribe(() => {
           this.currencies$ = this.apiService.getCurrencies();
