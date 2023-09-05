@@ -1,9 +1,8 @@
 <button id="buttonDialog"
-        data-toggle="modal"
-        data-target="#modalDialog"
+        data-bs-toggle="modal"
+        data-bs-target="#modalDialog"
         [style.display]="'none'"
-        type="button"
-        class="btn btn-dark">
+        type="button">
 </button>
 
 <div id="modalDialog"
@@ -11,7 +10,7 @@
      tabindex="-1" role="dialog"
      aria-labelledby="modalDialogLabel">
   <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content bg-dark border-light">
+    <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="modalDialogLabel">
           {{title | uppercase}}
@@ -23,12 +22,12 @@
         </p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-dark" data-dismiss="modal"
+        <button type="button" class="btn btn-dark" data-bs-dismiss="modal"
                 *ngIf="showCancelButton"
                 (click)="onCancel()">
           CANCELAR
         </button>
-        <button type="button" class="btn btn-dark" data-dismiss="modal"
+        <button type="button" class="btn btn-dark" data-bs-dismiss="modal"
                 (click)="onConfirm()">
           ACEPTAR
         </button>
