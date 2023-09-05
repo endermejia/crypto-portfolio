@@ -1,0 +1,38 @@
+<button id="buttonDialog"
+        data-toggle="modal"
+        data-target="#modalDialog"
+        [style.display]="'none'"
+        type="button"
+        class="btn btn-dark">
+</button>
+
+<div id="modalDialog"
+     class="modal fade"
+     tabindex="-1" role="dialog"
+     aria-labelledby="modalDialogLabel">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content bg-dark border-light">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalDialogLabel">
+          {{title | uppercase}}
+        </h5>
+      </div>
+      <div class="modal-body">
+        <p>
+          {{message}}
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark" data-dismiss="modal"
+                *ngIf="showCancelButton"
+                (click)="onCancel()">
+          CANCELAR
+        </button>
+        <button type="button" class="btn btn-dark" data-dismiss="modal"
+                (click)="onConfirm()">
+          ACEPTAR
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
