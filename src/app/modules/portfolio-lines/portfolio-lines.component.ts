@@ -1,7 +1,7 @@
 import {Component, OnDestroy} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
-import {ApiService} from '../../api.service';
+import {ApiService} from '../../services/api.service';
 import {Portfolio} from '../../models/models';
 
 @Component({

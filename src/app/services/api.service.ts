@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {map, Observable} from 'rxjs';
-import {Coin, CryptoCompareData, Portfolio, PortfolioLine} from './models/models';
-import {environment} from '../environments/environment';
+import {Coin, CryptoCompareData, Portfolio, PortfolioLine} from '../models/models';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'

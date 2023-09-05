@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subscription} from 'rxjs';
 import {Portfolio} from '../../../models/models';
-import {ApiService} from '../../../api.service';
+import {ApiService} from '../../../services/api.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
