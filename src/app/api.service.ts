@@ -60,7 +60,7 @@ export class ApiService {
     return this.http.put(`${this.serverUrl}/coins/${currency.id}`, currency) as Observable<Coin>;
   }
 
-  deleteCurrency(currencyId: number): Observable<Object> {
+  deleteCurrency(currencyId: number): Observable<unknown> {
     return this.http.delete(`${this.serverUrl}/coins/${currencyId}`);
   }
 
@@ -82,7 +82,7 @@ export class ApiService {
     return this.http.put(`${this.serverUrl}/portfolios/${portfolio.id}`, portfolio) as Observable<Portfolio>;
   }
 
-  deletePortfolio(portfolioId: number): Observable<Object> {
+  deletePortfolio(portfolioId: number): Observable<unknown> {
     return this.http.delete(`${this.serverUrl}/portfolios/${portfolioId}`);
   }
 
@@ -106,7 +106,7 @@ export class ApiService {
     return this.http.put(`${this.serverUrl}/lines/${portfolioLine.id}`, portfolioLine) as Observable<PortfolioLine>;
   }
 
-  deletePortfolioLine(portfolioLineId: number): Observable<Object> {
+  deletePortfolioLine(portfolioLineId: number): Observable<unknown> {
     return this.http.delete(`${this.serverUrl}/lines/${portfolioLineId}`);
   }
 

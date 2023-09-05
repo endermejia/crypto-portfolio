@@ -51,12 +51,16 @@
         <div class="d-flex gap-3" *ngIf="!(editing && currencyEditForm.get('id')?.value === currency.id)">
           <a type="button"
              (click)="editCurrency(currency)"
+             (keyup.enter)="editCurrency(currency)"
+             tabindex="0"
              title="Edit">
             <i class="bi bi-pencil"></i>
             Edit
           </a>
           <a type="button"
              (click)="deleteCurrency(currency.id)"
+             (keyup.enter)="deleteCurrency(currency.id)"
+             tabindex="0"
              title="Delete">
             <i class="bi bi-trash"></i>
             Delete
@@ -65,12 +69,16 @@
         <div class="d-flex gap-3" *ngIf="editing && currencyEditForm.get('id')?.value === currency.id">
           <a type="button"
              (click)="updateCurrency()"
+             (keyup.enter)="updateCurrency()"
+             tabindex="0"
              title="Save">
             <i class="bi bi-save"></i>
             Save
           </a>
           <a type="button"
              (click)="cancelEditCurrency()"
+             (keyup.enter)="cancelEditCurrency()"
+             tabindex="0"
              title="Cancel">
             <i class="bi bi-x-circle"></i>
             Cancel

@@ -33,12 +33,16 @@
           </a>
           <a type="button"
              (click)="editPortfolio(portfolio)"
+             (keyup.enter)="editPortfolio(portfolio)"
+             tabindex="0"
              title="Edit">
             <i class="bi bi-pencil"></i>
             Edit
           </a>
           <a type="button"
              (click)="deletePortfolio(portfolio.id)"
+             (keyup.enter)="deletePortfolio(portfolio.id)"
+             tabindex="0"
              title="Delete">
             <i class="bi bi-trash"></i>
             Delete
@@ -47,12 +51,16 @@
         <div class="d-flex gap-3" *ngIf="editing && portfolioEditForm.get('id')?.value === portfolio.id">
           <a type="button"
              (click)="updatePortfolio()"
+             (keyup.enter)="updatePortfolio()"
+             tabindex="0"
              title="Save">
             <i class="bi bi-save"></i>
             Save
           </a>
           <a type="button"
              (click)="cancelEditPortfolio()"
+             (keyup.enter)="cancelEditPortfolio()"
+             tabindex="0"
              title="Cancel">
             <i class="bi bi-x-circle"></i>
             Cancel

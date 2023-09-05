@@ -47,12 +47,16 @@
         <div class="d-flex gap-3" *ngIf="!(editing && lineEditForm.get('id')?.value === line.id)">
           <a type="button"
              (click)="editLine(line)"
+             (keyup.enter)="editLine(line)"
+             tabindex="0"
              title="Edit">
             <i class="bi bi-pencil"></i>
             Edit
           </a>
           <a type="button"
              (click)="deleteLine(line.id)"
+             (keyup.enter)="deleteLine(line.id)"
+             tabindex="0"
              title="Delete">
             <i class="bi bi-trash"></i>
             Delete
@@ -61,12 +65,16 @@
         <div class="d-flex gap-3" *ngIf="editing && lineEditForm.get('id')?.value === line.id">
           <a type="button"
              (click)="updateLine()"
+             (keyup.enter)="updateLine()"
+             tabindex="0"
              title="Update">
             <i class="bi bi-save"></i>
             Save
           </a>
           <a type="button"
              (click)="cancelEditLine()"
+             (keyup.enter)="cancelEditLine()"
+             tabindex="0"
              title="Cancel">
             <i class="bi bi-x"></i>
             Cancel
