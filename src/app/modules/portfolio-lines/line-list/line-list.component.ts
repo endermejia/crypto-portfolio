@@ -1,8 +1,8 @@
 import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
-import {ApiService} from '../../api.service';
+import {ApiService} from '../../../api.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Observable, Subscription} from 'rxjs';
-import {Coin, Portfolio, PortfolioLine} from '../../models/models';
+import {Coin, Portfolio, PortfolioLine} from '../../../models/models';
 
 @Component({
   selector: 'app-line-list',

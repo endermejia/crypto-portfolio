@@ -1,8 +1,8 @@
 import {Component, OnDestroy} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
-import {ApiService} from '../api.service';
-import {Portfolio} from '../models/models';
+import {ApiService} from '../../api.service';
+import {Portfolio} from '../../models/models';
 
 @Component({
   selector: 'app-portfolio-lines',

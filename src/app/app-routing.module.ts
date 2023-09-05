@@ -4,15 +4,15 @@ import {RouterModule, Routes} from '@angular/router';
 const routes: Routes = [
   {
     path: 'currencies',
-    loadChildren: () => import('./currencies/currencies.module').then(m => m.CurrenciesModule)
+    loadChildren: () => import('./modules/currencies/currencies.module').then(m => m.CurrenciesModule)
   },
   {
     path: 'portfolios',
-    loadChildren: () => import('./portfolios/portfolios.module').then(m => m.PortfoliosModule)
+    loadChildren: () => import('./modules/portfolios/portfolios.module').then(m => m.PortfoliosModule)
   },
   {
     path: 'portfolios/:id',
-    loadChildren: () => import('./portfolio-lines/portfolio-lines.module').then(m => m.PortfolioLinesModule)
+    loadChildren: () => import('./modules/portfolio-lines/portfolio-lines.module').then(m => m.PortfolioLinesModule)
   },
   {
     path: '**',
